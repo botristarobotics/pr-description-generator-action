@@ -15,6 +15,10 @@ inputs:
   branch_name:
     required: true
     type: string
+  model:
+    description: 'OpenAI model used to generate the description'
+    required: false
+    default: 'gpt-5.4'
 
 runs:
   using: 'node20'
