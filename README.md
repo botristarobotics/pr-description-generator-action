@@ -5,7 +5,7 @@ This GitHub Action is designed to automatically generate descriptions for Pull R
 ## Features
 
 - Extract commit messages and file changes from PRs.
-- Utilize OpenAI's GPT-4 model to automatically generate descriptive text.
+- Utilize an OpenAI model (default `gpt-5.4`, configurable via `model`) to automatically generate descriptive text.
 - Update the PR's description field with the generated content.
 
 ## Usage
@@ -30,12 +30,13 @@ jobs:
 
       # Use the action to generate the PR description
       - name: Auto Generate PR Description Action
-        uses: class90431/pr-description-generator@main
+        uses: botristarobotics/pr-description-generator-action@v7.0.0
         with:
           repository_owner: ${{ github.repository_owner }}
           repository_name: ${{ github.event.pull_request.base.repo.name }}
           pull_request_number: ${{ github.event.pull_request.number }}
           branch_name: ${{ github.event.pull_request.head.ref }}
+          # model: gpt-5.4  # optional
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.SOFTWARE_GITHUB_TOKEN }}

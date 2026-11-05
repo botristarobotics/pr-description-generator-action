@@ -17828,7 +17828,7 @@ var ChatCompletionStream = class _ChatCompletionStream extends AbstractChatCompl
   }
 };
 function finalizeChatCompletion(snapshot, params) {
-  const { id, choices, created, model, system_fingerprint, ...rest } = snapshot;
+  const { id, choices, created, model: model2, system_fingerprint, ...rest } = snapshot;
   const completion = {
     ...rest,
     id,
@@ -17906,7 +17906,7 @@ ${str(snapshot)}`);
       };
     }),
     created,
-    model,
+    model: model2,
     object: "chat.completion",
     ...system_fingerprint ? { system_fingerprint } : {}
   };
@@ -19414,8 +19414,8 @@ var Models = class extends APIResource {
    * Retrieves a model instance, providing basic information about the model such as
    * the owner and permissioning.
    */
-  retrieve(model, options) {
-    return this._client.get(`/models/${model}`, options);
+  retrieve(model2, options) {
+    return this._client.get(`/models/${model2}`, options);
   }
   /**
    * Lists the currently available models, and provides basic information about each
@@ -19428,8 +19428,8 @@ var Models = class extends APIResource {
    * Delete a fine-tuned model. You must have the Owner role in your organization to
    * delete a model.
    */
-  del(model, options) {
-    return this._client.delete(`/models/${model}`, options);
+  del(model2, options) {
+    return this._client.delete(`/models/${model2}`, options);
   }
 };
 var ModelsPage = class extends Page {
@@ -19639,6 +19639,7 @@ var owner = process.env.INPUT_REPOSITORY_OWNER;
 var repo = process.env.INPUT_REPOSITORY_NAME;
 var pullNumber = process.env.INPUT_PULL_REQUEST_NUMBER;
 var branchName = process.env.INPUT_BRANCH_NAME;
+var model = process.env.INPUT_MODEL || "gpt-5.4";
 var openaiApiKey = process.env.OPENAI_API_KEY;
 var githubToken = process.env.GITHUB_TOKEN;
 if (!openaiApiKey || !githubToken) {
@@ -19774,7 +19775,7 @@ ${!hasApi && hasApiChanges ? "- Include the ## API section with details about AP
 ${!hasApi && !hasApiChanges ? "- Remove the ## API section completely if there are no API changes." : ""}
     `;
     const response = await openai.chat.completions.create({
-      model: "gpt-5.4",
+      model,
       messages: [
         {
           role: "system",
